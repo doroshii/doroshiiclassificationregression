@@ -498,7 +498,7 @@ pre {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
-  margin-left: -15px; }
+  margin-left: 150px; }
 
 .no-gutters {
   margin-right: 0;
@@ -11782,7 +11782,9 @@ table.tablesorter thead tr .headerSortDown {
   .main-panel {
     width: 100%; }
     .main-panel .content {
-      padding-left: 30px; }
+      padding-left: 30px; 
+      margin-left: 150px;
+    }
   .nav-open .main-panel {
     right: 0;
     transform: translate3d(260px, 0, 0); }
@@ -11831,7 +11833,9 @@ table.tablesorter thead tr .headerSortDown {
 @media screen and (max-width: 768px) {
   .main-panel .content {
     padding-left: 15px;
-    padding-right: 15px; } }
+    padding-right: 15px;
+    margin-left: 150px;
+   } }
 
 .color-swatch {
   margin: 1rem 0;

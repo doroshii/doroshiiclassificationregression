@@ -1,0 +1,308 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} Diabetes {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+
+  .container-box {
+      position: relative;
+      min-height: 80vh; /* Adjust the value as needed */
+      z-index: 0;
+      background: #1e1e2f;
+      padding: 20px; /* Adjust the padding as needed */
+      justify-content: center;
+      display: grid;
+      grid-template-rows: 1fr auto 1fr;
+      align-items: center;
+      margin-top: 50px;
+  }
+
+  .container {
+      max-width: 1000px;
+      margin-top: 0 auto;
+      margin-left: 10rem;
+  }
+
+  .container-box h1{
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #fff;
+  }
+
+  .container-box h4{
+      line-height: 20px;
+      margin-bottom: 5px;
+      font-size: 20px;
+      font-weight: 500;
+      color: #69275c;
+      text-align: center;
+  }
+
+.container-box .main{
+  position: relative;
+  display: flex;
+  margin: 30px 0;
+}
+
+.contents{
+  flex-basis: 50%;
+  padding: 3em 3em;
+  background: #fff;
+  box-shadow: 2px 9px 49px -17px rgba(156, 39, 148, 0.1);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+  .result-container {
+      flex-basis: 50%;
+      background: #fff;
+      background-size: cover;
+      padding: 3em 3em;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      align-items: center;
+      color: #000;
+  }
+
+.result-container h1{
+      line-height: 20px;
+      margin-bottom: 30px;
+      font-size: 20px;
+      font-weight: 500;
+      color: #69275c;
+      text-align: center;
+      margin-bottom: 50px;
+  } 
+
+  .result-container h2 {
+      text-align: center;
+      font-size: 25px;
+      font-weight: 400;
+      color: #000;
+  }
+
+  .btn,
+button,
+input{
+  border-radius: 35px;
+}
+.btn:hover,
+button:hover{
+  color: #97359c;
+  transition: 0.5s ease;
+}
+
+.container-box form{
+  margin: 30px 0;
+}
+
+.container-box input,
+textarea{
+  outline: none;
+  margin-bottom: 15px;
+  font-stretch: 16px;
+  color: #999;
+  padding: 14px 20px;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  border: none;
+  background: #cdcbcb4f;
+  transition: 0.3s ease;
+}
+
+.container-box input:focus{
+  background: transparent;
+  border: 1px solid #69275c;
+}
+.container-box button{
+  font-size: 14px;
+  color: #fff;
+  width: 100%;
+  background: #6d1d5d;
+  font-weight: 600;
+  transition: 0.3s ease;
+  padding: 14px 10px;
+  border: 1px solid #69275c;
+
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.0;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+
+
+  <div class="container-box">
+      <div class="container">
+          <div class="main">
+              <div class="contents"> 
+              <h4>Diabetes Classifier</h4>
+              <form action="{% url 'classify' %}" method='get'> 
+                      <div>
+                          {% comment %} <label for="preg">No. of pregnancies [0 - 20]</label> {% endcomment %}
+                          <input type="number" id="preg" name="preg" placeholder="Enter No. of Pregnancies" min="0" max="20"> 
+                      </div>
+                  
+                      <div>
+                          {% comment %} <label for="gluc">Amount of Glucose [0 - 250]</label> {% endcomment %}
+                          <input type="number" id-"gluc" name="gluc" placeholder="Enter Amount of Glucose" min="0" max="250">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="blood">Blood pressure [0 - 140]</label> {% endcomment %}
+                          <input type="number" id="blood" name="blood" placeholder="Enter Blood Pressure" min="0" max="140">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="skin">Skin Thickness [0-100]</label> {% endcomment %}
+                          <input type="number" id="skin" name="skin" placeholder="Enter Skin Thickness" min="0" max="100">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="ins">Insulin [0-900]</label> {% endcomment %}
+                          <input type="number" id="ins" name="ins" placeholder="Enter Insulin" min="0" max="900">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="bmi">BMI [0-70]</label> {% endcomment %}
+                          <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" min="0" max="70">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="dbf">Diabetes Pedigree Function [0-2.5]</label> {% endcomment %}
+                          <input type="number" id="dbf" name="dbf" placeholder="Enter DBF" min="0" max="2.5" step="any">
+                      </div>
+                  
+                      <div class="form-group">
+                          {% comment %} <label for="age">Age [18-90]</label> {% endcomment %}
+                          <input type="number" id="age" name="age" placeholder="Enter Your Age">
+                      </div>
+                      <button type='submit' class='btn btn-primary'>Predict</button>
+                  </form>
+              </div>
+
+          <div class="result-container"> 
+              <h1>Are you Diabetic or Not?</h1>
+                  <h2>{{ Category }}</h2>
+
+                  {% if Category == "You are Diabetic!" %}
+        <p>You have Diabetes!</p>
+        <img src="{% static 'C:\Users\djaba\Downloads\black-dashboard-django-master\black-dashboard-django-master\apps\static\assets\img\sick.jpg' %}" alt="Diabetic Image" class="img-fluid" style="width: 300px; height: auto;">
+    {% elif Category == "You are Non-Diabetic!" %}
+        <p>You don't have Diabetes!</p>
+        <img src="{% static 'C:\Users\djaba\Downloads\black-dashboard-django-master\black-dashboard-django-master\apps\static\assets\img\healthy.jpg' %}" alt="Non-Diabetic Image" class="img-fluid" style="width: 400px; height: auto;">
+    {% endif %}
+                  <!-- Add a back button or any other elements you need -->
+                  {% comment %} {% if Category == "Diabetic" %}
+                  <p>You are Diabetic!</p>
+                  <img src="path/to/diabetic-image.jpg" alt="Diabetic Image" class="img-fluid">
+              {% elif Category == "Non-Diabetic" %}
+                  <p>You are Non-Diabetic!</p>
+                  <img src="path/to/non-diabetic-image.jpg" alt="Non-Diabetic Image" class="img-fluid">
+              {% else %}
+                  <!-- Handle other categories if needed -->
+              {% endif %} {% endcomment %}
+              </div>
+          </div>
+          <div class="content">
+            <div class="row">
+              
+              <div class="col-md-12">
+                <div class="card  card-plain">
+                  <div class="card-header">
+                    <h4 class="card-title"> Diabetes Classification</h4>
+                    {% comment %} <p class="category"> Here is a subtitle for this table</p> {% endcomment %}
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table tablesorter " id="">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th>
+                                No. of Pregnancies
+                            </th>
+                            <th>
+                                Amount of Glucose
+                            </th>
+                            <th>
+                                Blood Pressure
+                            </th>
+                            <th>
+                                Skin Thickness
+                            </th>
+                            <th>
+                                Insulin
+                            </th>
+                            <th>
+                                BMI
+                            </th>
+                            <th>
+                                DBF
+                            </th>
+                            <th>
+                                Age
+                            </th>
+                            <th class="text-center">
+                                Result
+                            </th>
+                            <th class="text-center">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for data in all_data %}
+                            <tr>
+                                <td>{{ data.preg }}</td>
+                                <td>{{ data.gluc }}</td>
+                                <td>{{ data.blood }}</td>
+                                <td>{{ data.skin }}</td>
+                                <td>{{ data.ins }}</td>
+                                <td>{{ data.bmi }}</td>
+                                <td>{{ data.dbf }}</td>
+                                <td>{{ data.age }}</td>
+                                <td>{{ data.result }}</td>
+                                <td class="text-center">
+                                    <!-- Add any actions/buttons you need here -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+  </div>
+
+
+{% endblock content %}
