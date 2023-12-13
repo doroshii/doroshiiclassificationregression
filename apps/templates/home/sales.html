@@ -88,7 +88,7 @@
       font-size: 25px;
       font-weight: bold;
       color: #000;
-      {% comment %} margin-top: 12rem; {% endcomment %}
+      margin-top: 12rem;
   }
 
   .btn,
@@ -169,70 +169,69 @@ input[type=number]::-webkit-outer-spin-button {
     <div class="d-flex justify-content-end mt-4">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
-          <a href="{% url 'diabetes_data_list' %}" class="btn btn-primary">Table</a>
-          <a href="{% url 'diabetes_chart_view' %}" class="btn btn-primary">Chart</a>
+          <a href="{% url 'product_data_list' %}" class="btn btn-primary">Table</a>
+          <a href="{% url 'line_chart_view' %}" class="btn btn-primary">Line Chart</a>
+          <a href="{% url 'pie_chart_view' %}" class="btn btn-primary">Pie Chart</a>
+          <a href="{% url 'stacked_bar_chart' %}" class="btn btn-primary">Bar Chart</a>
         </div>
       </div>
     </div>
       <div class="main">
-          <div class="contents"> 
-          <h4>Diabetes Classifier</h4>
-          <form action="{% url 'classify' %}" method='get'> 
-                  <div>
-                      {% comment %} <label for="preg">No. of pregnancies [0 - 20]</label> {% endcomment %}
-                      <input type="number" id="preg" name="preg" placeholder="Enter No. of Pregnancies" min="0" max="20"> 
-                  </div>
-              
-                  <div>
-                      {% comment %} <label for="gluc">Amount of Glucose [0 - 250]</label> {% endcomment %}
-                      <input type="number" id="gluc" name="gluc" placeholder="Enter Amount of Glucose" min="0" max="250">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="blood">Blood pressure [0 - 140]</label> {% endcomment %}
-                      <input type="number" id="blood" name="blood" placeholder="Enter Blood Pressure" min="0" max="140">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="skin">Skin Thickness [0-100]</label> {% endcomment %}
-                      <input type="number" id="skin" name="skin" placeholder="Enter Skin Thickness" min="0" max="100">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="ins">Insulin [0-900]</label> {% endcomment %}
-                      <input type="number" id="ins" name="ins" placeholder="Enter Insulin" min="0" max="900">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="bmi">BMI [0-70]</label> {% endcomment %}
-                      <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" min="0" max="70">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="dbf">Diabetes Pedigree Function [0-2.5]</label> {% endcomment %}
-                      <input type="number" id="dbf" name="dbf" placeholder="Enter DBF" min="0" max="2.5" step="any">
-                  </div>
-              
-                  <div class="form-group">
-                      {% comment %} <label for="age">Age [18-90]</label> {% endcomment %}
-                      <input type="number" id="age" name="age" placeholder="Enter Your Age">
-                  </div>
-                  <button type='submit' class='btn btn-primary'>Predict</button>
-              </form>
-          </div>
+          <div class="contents">
+              <h4>Sale Prediction Form</h4>
+              <form action="{% url 'predict_sale_view' %}" method="post">
+                  {% csrf_token %}
 
-      <div class="result-container"> 
-          <h1>Are you Diabetic or Not?</h1>
-              <h2>{{ Category }}</h2>
+  <div>
+    {% comment %} <label for="sale">Price:</label> {% endcomment %}
+    <input type="text" id="price" name="price" placeholder="Enter Price" required>
+</div>
 
-              {% if Category == "You are Diabetic!" %}
-    <p>You have Diabetes!</p>
-    <img src="{% static 'C:\Users\djaba\Downloads\black-dashboard-django-master\black-dashboard-django-master\apps\static\assets\img\sick.jpg' %}" alt="Diabetic Image" class="img-fluid" style="width: 300px; height: auto;">
-{% elif Category == "You are Non-Diabetic!" %}
-    <p>You don't have Diabetes!</p>
-    <img src="{% static 'C:\Users\djaba\Downloads\black-dashboard-django-master\black-dashboard-django-master\apps\static\assets\img\healthy.jpg' %}" alt="Non-Diabetic Image" class="img-fluid" style="width: 400px; height: auto;">
+<div>
+    {% comment %} <label for="radio">Radio Advertisements:</label> {% endcomment %}
+    <input type="text" id="radio" name="radio" placeholder="Enter Radio Advertisements" required>
+</div>
+
+<div>
+    {% comment %} <label for="in_store_spending">In-Store Spending:</label> {% endcomment %}
+    <input type="text" id="in_store_spending" name="in_store_spending" placeholder="Enter In-Store Spending" required>
+</div>
+
+<div>
+    {% comment %} <label for="discount">Discount:</label> {% endcomment %}
+    <input type="text" id="discount" name="discount" placeholder="Enter Discount" required>
+</div>
+
+<div>
+    {% comment %} <label for="tv_spending">TV Advertisements Spending:</label> {% endcomment %}
+    <input type="text" id="tv_spending" name="tv_spending" placeholder="Enter TV Advertisements Spending" required>
+</div>
+
+<div>
+    {% comment %} <label for="stock_rate">Stock Rate:</label> {% endcomment %}
+    <input type="text" id="stock_rate" name="stock_rate" placeholder="Enter Stock Rate" required>
+</div>
+
+<div>
+    {% comment %} <label for="online_ads_spending">Online Ads Spending:</label> {% endcomment %}
+    <input type="text" id="online_ads_spending" name="online_ads_spending" placeholder="Enter Online Ads Spending" required>
+</div>
+
+<button type="submit">Predict Profit</button>
+
+{% if error %}
+<p style="color: red;">{{ error }}</p>
 {% endif %}
-          </div>
-      </div>
+
+</form>
+</div>
+
+<div class="result-container">
+<h1>How Much is the Product's Sale?</h1>
+<h2>{{ predicted_sale }}</h2>
+</div>
+</div>
+</div>
+</div>
 
 {% endblock content %}

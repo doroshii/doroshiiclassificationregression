@@ -1,0 +1,196 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Diabetes Chart {% endblock %} 
+
+<!-- Include Chart.js from a CDN -->
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/chart.js">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="d-flex justify-content-end mt-4">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            <a href="{% url 'diabetes_data_list' %}" class="btn btn-primary">Table</a>
+            <a href="{% url 'diabetes_chart_view' %}" class="btn btn-primary">Chart</a>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <!-- Line Chart -->
+        <div class="col-12">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category">Diabetic vs Non-Diabetic</h5>
+                            <h2 class="card-title">Line Chart</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body mx-auto">
+                    <div class="chart-area">
+                        <canvas id="lineChart" width="1932" height="440" style="display: block; height: 220px; width: 966px;" class="chartjs-render-monitor"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Bar Chart -->
+        <div class="col-lg-6">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">Diabetic vs Non-Diabetic Count</h5>
+                    <h2 class="card-title">Bar Chart</h2>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-lg-6">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">Diabetic vs Non-Diabetic Distribution</h5>
+                    <h2 class="card-title">Pie Chart</h2>
+                </div>
+                <div class="card-body mx-auto">
+                    <div class="chart-area">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Include Chart.js from a CDN -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function () {
+        renderLineChart('{{ data_for_line_chart | safe }}');
+        renderBarChart('{{ data_for_bar_chart | safe }}');
+        renderPieChart('{{ data_for_pie_chart | safe }}');
+    });
+
+    function renderLineChart(data) {
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        var jsonData = JSON.parse(data);
+        var data = {
+            labels: jsonData[0],
+            datasets: [{
+                label: 'Diabetic vs Non-Diabetic',
+                data: jsonData[1],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        };
+        var options = {
+            scales: {
+                x: [{
+                    type: 'linear',
+                    position: 'bottom'
+                }]
+            }
+        };
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+
+    function renderBarChart(data) {
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var jsonData = JSON.parse(data);
+        var data = {
+            labels: jsonData.labels,
+            datasets: [{
+                label: 'Diabetic vs Non-Diabetic Count',
+                data: jsonData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    }
+
+    function renderPieChart(data) {
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var jsonData = JSON.parse(data);
+        var data = {
+            labels: jsonData.labels,
+            datasets: [{
+                data: jsonData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        var options = {
+            scales: {
+                y: {
+                    display: false, // Hide the y-axis
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom', // Adjust legend position as needed
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var label = context.chart.data.labels[context.dataIndex];
+                            var value = context.chart.data.datasets[0].data[context.dataIndex];
+                            return label + ': ' + value;
+                        }
+                    }
+                }
+            }
+        };
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        });
+    }
+    
+    
+</script>
+
+{% endblock javascripts %}

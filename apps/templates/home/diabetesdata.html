@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Diabetes Data {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+
+    <div class="content">
+        <div class="d-flex justify-content-end mt-4">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a href="{% url 'diabetes_data_list' %}" class="btn btn-primary">Table</a>
+                <a href="{% url 'diabetes_chart_view' %}" class="btn btn-primary">Chart</a>
+              </div>
+            </div>
+          </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card" style="width: 65rem;">
+                <div class="card-header">
+                    <h4 class="card-title">Diabetes Data</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table tablesorter " id="">
+                            <thead class=" text-primary">
+                                <h2>Diabetes Data List</h2>
+                                <tr>
+                                    <th>
+                                        No. of Pregnancies
+                                    </th>
+                                    <th>
+                                        Amount of Glucose
+                                    </th>
+                                    <th>
+                                        Blood Pressure
+                                    </th>
+                                    <th>
+                                        Skin Thickness
+                                    </th>
+                                    <th>
+                                        Insulin
+                                    </th>
+                                    <th>
+                                        BMI
+                                    </th>
+                                    <th>
+                                        DBF
+                                    </th>
+                                    <th>
+                                        Age
+                                    </th>
+                                    <th class="text-center">
+                                        Result
+                                    </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for diabetes_data in diabetes_data_list %}
+                                        <tr>
+                                        <td>{{ diabetes_data.preg }}</td>
+                                        <td>{{ diabetes_data.gluc }}</td>
+                                        <td>{{ diabetes_data.blood }}</td>
+                                        <td>{{ diabetes_data.skin }}</td>
+                                        <td>{{ diabetes_data.ins }}</td>
+                                        <td>{{ diabetes_data.bmi }}</td>
+                                        <td>{{ diabetes_data.dbf }}</td>
+                                        <td>{{ diabetes_data.age }}</td>
+                                        <td class="text-center">{{ diabetes_data.result }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    {% endblock content %}

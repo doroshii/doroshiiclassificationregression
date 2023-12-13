@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Sales Chart {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+    <div class="d-flex justify-content-end mt-4">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            <a href="{% url 'predict_sale_view' %}" class="btn btn-primary">Prediction</a>
+            <a href="{% url 'product_data_list' %}" class="btn btn-primary">Table</a>
+            <a href="{% url 'line_chart_view' %}" class="btn btn-primary">Line Chart</a>
+            <a href="{% url 'pie_chart_view' %}" class="btn btn-primary">Pie Chart</a>
+            <a href="{% url 'stacked_bar_chart' %}" class="btn btn-primary">Bar Chart</a>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-chart">
+                
+                <div class="card-header ">
+                    
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category">Sales Prediction</h5>
+                            <h2 class="card-title">Chart</h2>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if chart_html %}
+                    {{ chart_html|safe }}
+                {% else %}
+                    <p>No data available for the chart.</p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

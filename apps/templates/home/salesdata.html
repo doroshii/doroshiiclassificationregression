@@ -1,0 +1,85 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="d-flex justify-content-end mt-4">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a href="{% url 'predict_sale_view' %}" class="btn btn-primary">Prediction</a>
+                <a href="{% url 'line_chart_view' %}" class="btn btn-primary">Line Chart</a>
+                <a href="{% url 'pie_chart_view' %}" class="btn btn-primary">Pie Chart</a>
+                <a href="{% url 'stacked_bar_chart' %}" class="btn btn-primary">Bar Chart</a>
+              </div>
+            </div>
+          </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card" style="width: 65rem;">
+                    <div class="card-header">
+                        {% comment %} <h4 class="card-title"> Simple Table</h4> {% endcomment %}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table tablesorter " id="">
+                                <thead class=" text-primary">
+                                    <h2>Product Data List</h2>
+
+                            {% if product_data_list %}
+                                    <tr>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Radio</th>
+                                        <th class="text-center">In-Store Spending</th>
+                                        <th class="text-center">Discount</th>
+                                        <th class="text-center">TV Spending</th>
+                                        <th class="text-center">Stock Rate</th>
+                                        <th class="text-center">Online Ads Spending</th>
+                                        <th class="text-center">Predicted Sale</th>
+                                        <th class="text-center">Created At</th>
+                                    </tr>
+                                    {% for product_data in product_data_list %}
+                                        <tr>
+                                            <td class="text-center">{{ product_data.id }}</td>
+                                            <td class="text-center">{{ product_data.price }}</td>
+                                            <td class="text-center">{{ product_data.radio }}</td>
+                                            <td class="text-center">{{ product_data.in_store_spending }}</td>
+                                            <td class="text-center">{{ product_data.discount }}</td>
+                                            <td class="text-center">{{ product_data.tv_spending }}</td>
+                                            <td class="text-center">{{ product_data.stock_rate }}</td>
+                                            <td class="text-center">{{ product_data.online_ads_spending }}</td>
+                                            <td class="text-center">{{ product_data.predicted_sale }}</td>
+                                            <td class="text-center">{{ product_data.created_at }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                <p>No product data available.</p>
+                            {% endif %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+
+    });
+</script>
+
+{% endblock javascripts %}

@@ -19,6 +19,13 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="{% if 'sales' in segment %} active {% endif %} ">
+                    <a href="/sales.html">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p>Sales Prediction</p>
+                    </a>
+                </li>
+
                 <li class="{% if 'icons' in segment %} active {% endif %}">
                     <a href="/icons.html">
                         <i class="tim-icons icon-atom"></i>
@@ -33,12 +40,6 @@
                     </a>
                 </li>
 
-                <li class="{% if 'classification' in segment %} active {% endif %} ">
-                    <a href="/classification.html">
-                        <i class="tim-icons icon-chart-pie-36"></i>
-                        <p>CLassification</p>
-                    </a>
-                </li>
 
                 <li class="{% if 'notifications' in segment %} active {% endif %}">
                     <a href="/notifications.html">
